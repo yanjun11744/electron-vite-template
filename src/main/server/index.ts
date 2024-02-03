@@ -3,11 +3,11 @@ import app from './server'
 import config from '@config/index'
 import { createServer } from 'http';
 const port = config.BuiltInServerPort
-var server = null
+let server = null;
 app.set('port', port)
 
 export default {
-  StatrServer() {
+  StartServer() {
     return new Promise((resolve, reject) => {
       server = createServer(app)
       server.listen(port)

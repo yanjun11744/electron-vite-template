@@ -11,48 +11,49 @@
 
       <!--  -->
       <div class="right-side">
-        <div class="doc">
-          <div class="title alt">
-            {{ i18nt.buttonTips }}
-          </div>
-          <button class="btu" @click="open()">
-            {{ i18nt.buttons.console }}
-          </button>
-          <button class="btu" @click="CheckUpdate('one')">
-            {{ i18nt.buttons.checkUpdate }}
-          </button>
-        </div>
-        <div class="doc">
-          <button class="btu" @click="CheckUpdate('two')">
-            {{ i18nt.buttons.checkUpdate2 }}
-          </button>
-          <button class="btu" @click="CheckUpdate('three')">
-            {{ i18nt.buttons.checkUpdateInc }}
-          </button>
-          <!-- <button class="btu" @click="CheckUpdate('four')">
-            {{ i18nt.buttons.ForcedUpdate }}
-          </button> -->
-          <button class="btu" @click="StartServer">
-            {{ i18nt.buttons.startServer }}
-          </button>
-          <button class="btu" @click="StopServer">
-            {{ i18nt.buttons.stopServer }}
-          </button>
-          <button class="btu" @click="getMessage">
-            {{ i18nt.buttons.viewMessage }}
-          </button>
-          <button class="btu" @click="startCrash">
-            {{ i18nt.buttons.simulatedCrash }}
-          </button>
-        </div>
-        <div class="doc">
-          <button class="btu" @click="openNewWin">
-            {{ i18nt.buttons.openNewWindow }}
-          </button>
-          <button class="btu" @click="changeLanguage">{{
-            i18nt.buttons.changeLanguage
-          }}</button>
-        </div>
+<!--        <div class="doc">-->
+<!--          <div class="title alt">-->
+<!--            {{ i18nt.buttonTips }}-->
+<!--          </div>-->
+<!--          <button class="btu" @click="open()">-->
+<!--            {{ i18nt.buttons.console }}-->
+<!--          </button>-->
+<!--          <button class="btu" @click="CheckUpdate('one')">-->
+<!--            {{ i18nt.buttons.checkUpdate }}-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        <div class="doc">-->
+<!--          <button class="btu" @click="CheckUpdate('two')">-->
+<!--            {{ i18nt.buttons.checkUpdate2 }}-->
+<!--          </button>-->
+<!--          <button class="btu" @click="CheckUpdate('three')">-->
+<!--            {{ i18nt.buttons.checkUpdateInc }}-->
+<!--          </button>-->
+<!--          &lt;!&ndash; <button class="btu" @click="CheckUpdate('four')">-->
+<!--            {{ i18nt.buttons.ForcedUpdate }}-->
+<!--          </button> &ndash;&gt;-->
+<!--          <button class="btu" @click="StartServer">-->
+<!--            {{ i18nt.buttons.startServer }}-->
+<!--          </button>-->
+<!--          <button class="btu" @click="StopServer">-->
+<!--            {{ i18nt.buttons.stopServer }}-->
+<!--          </button>-->
+<!--          <button class="btu" @click="getMessage">-->
+<!--            {{ i18nt.buttons.viewMessage }}-->
+<!--          </button>-->
+<!--          <button class="btu" @click="startCrash">-->
+<!--            {{ i18nt.buttons.simulatedCrash }}-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        <div class="doc">-->
+<!--          <button class="btu" @click="openNewWin">-->
+<!--            {{ i18nt.buttons.openNewWindow }}-->
+<!--          </button>-->
+<!--          <button class="btu" @click="changeLanguage">{{-->
+<!--            i18nt.buttons.changeLanguage-->
+<!--          }}</button>-->
+<!--        </div>-->
+        <tools/>
       </div>
     </main>
   </div>
@@ -65,6 +66,8 @@ import logo from "@renderer/assets/logo.png";
 import { onUnmounted, ref } from "vue";
 import { i18nt, setLanguage, globalLang } from "@renderer/i18n";
 import { useStoreTemplate } from "@store/template";
+import Test from "@renderer/views/test/test.vue";
+import Tools from "@renderer/views/tools/tools.vue";
 
 let { ipcRenderer, shell, crash } = window;
 
@@ -204,7 +207,7 @@ ipcRenderer.on("download-done", (event, age) => {
   //   },
   // });
 });
-// electron-updater upload 
+// electron-updater upload
 ipcRenderer.on("UpdateMsg", (event, age) => {
   switch (age.state) {
     case -1:
@@ -282,7 +285,7 @@ body {
 }
 
 #wrapper {
-  padding: 124px 80px;
+  padding: 60px 60px;
 }
 
 #logo {

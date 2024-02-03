@@ -6,6 +6,7 @@ import { winURL, loadingURL, getPreloadFile } from '../config/StaticPath'
 import { join } from "path"
 
 setIpc.Mainfunc()
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 class MainInit {
 
@@ -37,13 +38,15 @@ class MainInit {
       titleBarStyle: config.IsUseSysTitle ? 'default' : 'hidden',
       height: 800,
       useContentSize: true,
-      width: 1700,
-      minWidth: 1366,
+      width: 1200,
+      minWidth: 1200,
       show: false,
       frame: config.IsUseSysTitle,
       webPreferences: {
         sandbox: false,
         webSecurity: false,
+        // nodeIntegration: true,
+        // contextIsolation: false,
         // 如果是开发模式可以使用devTools
         devTools: process.env.NODE_ENV === 'development',
         // 在macos中启用橡皮动画

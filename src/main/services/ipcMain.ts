@@ -7,21 +7,45 @@ import Update from './checkupdate'
 import { join } from 'path'
 import config from '@config/index'
 
+async function handleFileOpen ({ name, extensions }) {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    //对话框标题
+    // title:"test",
+    //多选
+    // properties: ['openFile', 'multiSelections'],
+    //文件类型
+    filters: [
+      { name: name, extensions: extensions }
+    ],
+
+  })
+  if (canceled) {
+
+  } else {
+    return filePaths
+  }
+}
+
 export default {
   Mainfunc() {
     const allUpdater = new Update()
+
     ipcMain.handle('IsUseSysTitle', async () => {
       return config.IsUseSysTitle
     })
+
     ipcMain.handle('app-close', (event, args) => {
       app.quit()
     })
+
     ipcMain.handle('check-update', (event) => {
       allUpdater.checkUpdate(BrowserWindow.fromWebContents(event.sender))
     })
+
     ipcMain.handle('confirm-update', () => {
       allUpdater.quitAndInstall()
     })
+
     ipcMain.handle('open-messagebox', async (event, arg) => {
       const res = await dialog.showMessageBox(BrowserWindow.fromWebContents(event.sender), {
         type: arg.type || 'info',
@@ -32,15 +56,17 @@ export default {
       })
       return res
     })
+
     ipcMain.handle('open-errorbox', (event, arg) => {
       dialog.showErrorBox(
         arg.title,
         arg.message
       )
     })
+
     ipcMain.handle('start-server', async () => {
       try {
-        const serveStatus = await Server.StatrServer()
+        const serveStatus = await Server.StartServer()
         console.log(serveStatus)
         return serveStatus
       } catch (error) {
@@ -50,6 +76,7 @@ export default {
         )
       }
     })
+
     ipcMain.handle('stop-server', async (event, arg) => {
       try {
         const serveStatus = await Server.StopServer()
@@ -61,12 +88,17 @@ export default {
         )
       }
     })
+
     ipcMain.handle('hot-update', (event, arg) => {
       updater(BrowserWindow.fromWebContents(event.sender))
     })
+
     ipcMain.handle('start-download', (event, msg) => {
       new DownloadFile(BrowserWindow.fromWebContents(event.sender), msg.downloadUrl).start()
     })
+
+    ipcMain.handle('dialog-openFile', (event, args) =>handleFileOpen(args))
+
     ipcMain.handle('open-win', (event, arg) => {
       const ChildWin = new BrowserWindow({
         titleBarStyle: config.IsUseSysTitle ? 'default' : 'hidden',
@@ -89,6 +121,7 @@ export default {
             : join(app.getAppPath(), 'dist', 'electron', 'main', 'preload.js')
         }
       })
+
       // 开发模式下自动开启devtools
       if (process.env.NODE_ENV === 'development') {
         ChildWin.webContents.openDevTools({ mode: 'undocked', activate: true })
@@ -109,6 +142,7 @@ export default {
           })
         }
       })
+
       // 渲染进程显示时触发
       ChildWin.once("show", () => {
         ChildWin.webContents.send('send-data', arg.sendData)

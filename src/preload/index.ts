@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer, IpcRendererEvent, shell } from "electron"
+import { contextBridge, ipcRenderer, IpcRendererEvent, shell, clipboard } from "electron"
 import { platform, release, arch } from 'os'
 
 contextBridge.exposeInMainWorld("ipcRenderer", {
@@ -19,6 +19,12 @@ contextBridge.exposeInMainWorld("systemInfo", {
 })
 
 contextBridge.exposeInMainWorld("shell", shell)
+
+contextBridge.exposeInMainWorld("clipboard", {
+  writeText: (text) => clipboard.writeText(text),
+  readText: () => clipboard.readText(),
+  // ... 其他需要暴露的 clipboard 方法
+})
 
 contextBridge.exposeInMainWorld("crash", {
     start: () => {
